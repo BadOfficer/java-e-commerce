@@ -1,5 +1,6 @@
 package com.tb.javaecommerce.web;
 
+import com.tb.javaecommerce.featuretoggle.exception.FeatureNotEnabledException;
 import com.tb.javaecommerce.service.exception.CategoryNotFoundException;
 import com.tb.javaecommerce.service.exception.ProductNotFoundException;
 import com.tb.javaecommerce.web.exception.FieldsAndReason;
@@ -35,6 +36,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
         problemDetail.setType(URI.create("category-not-found"));
         problemDetail.setTitle("Category Not Found");
+        return problemDetail;
+    }
+
+    @ExceptionHandler(FeatureNotEnabledException.class)
+    public ProblemDetail handleFeatureToggleNotEnabledException(FeatureNotEnabledException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        problemDetail.setType(URI.create("feature-disabled"));
+        problemDetail.setTitle("Feature Is Disabled");
         return problemDetail;
     }
 

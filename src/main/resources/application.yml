@@ -10,3 +10,8 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
+
+feature:
+    toggles:
+      cosmo-cats: true
+      kitty-products: false
