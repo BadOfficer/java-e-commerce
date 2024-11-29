@@ -26,7 +26,7 @@ public class OrderRequestDto {
     String consumerName;
 
     @NotNull(message = "Total price cannot be null")
-    double totalPrice;
+    Double totalPrice;
 
     @NotNull(message = "Status cannot be null")
     String orderStatus;

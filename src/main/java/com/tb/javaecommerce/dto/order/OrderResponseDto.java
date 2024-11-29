@@ -13,7 +13,7 @@ public class OrderResponseDto {
     String consumerName;
     String address;
     String email;
-    double totalPrice;
+    Double totalPrice;
     String orderStatus;
     List<OrderItemDto> orderItems;
 }

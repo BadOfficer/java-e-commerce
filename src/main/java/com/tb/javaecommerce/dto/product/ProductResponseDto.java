@@ -13,6 +13,5 @@ public class ProductResponseDto {
     String description;
     Double price;
     String status;
-
     CategoryDto category;
 }
