@@ -1,5 +1,6 @@
 package com.tb.javaecommerce.domain;
 
+import com.tb.javaecommerce.common.OrderStatus;
 import com.tb.javaecommerce.dto.order.OrderItemDto;
 import lombok.Builder;
 import lombok.Data;
@@ -12,11 +13,11 @@ import java.util.UUID;
 @Data
 @Builder
 public class Order {
-    UUID id;
+    long id;
     String consumerName;
     String address;
     String email;
-    String orderStatus;
+    OrderStatus orderStatus;
     List<OrderItem> orderItems;
     double totalPrice;
 }

@@ -1,6 +1,19 @@
 spring:
   application:
     name: java-e-commerce
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cosmo_cats
+    username: postgres
+    password: root
+
+  liquibase:
+    change-log: classpath:liquibase/changelog.yaml
+    enabled: true
+
 
 springdoc:
   api-docs:

@@ -27,7 +27,7 @@ public class ProductRequestDto {
     Double price;
 
     @NotNull(message = "Category is mandatory")
-    Integer categoryId;
+    Long categoryId;
 
     ProductStatus status;
 }

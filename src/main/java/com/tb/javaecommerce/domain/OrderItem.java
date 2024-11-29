@@ -6,7 +6,7 @@ import lombok.Value;
 @Value
 @Data
 public class OrderItem {
-    String product;
+    long productId;
     int quantity;
     double price;
 }

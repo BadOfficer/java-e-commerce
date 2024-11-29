@@ -1,38 +1,51 @@
 package com.tb.javaecommerce.service.impl;
 
-import com.tb.javaecommerce.dto.order.OrderItemDto;
+import com.tb.javaecommerce.domain.Order;
 import com.tb.javaecommerce.dto.order.OrderRequestDto;
-import com.tb.javaecommerce.dto.order.OrderResponseDto;
-import com.tb.javaecommerce.service.OrderService;
+import com.tb.javaecommerce.repository.OrderRepository;
+import com.tb.javaecommerce.repository.entity.OrderEntity;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
+    private final OrderRepository orderRepository;
+    private final OrderMapper orderMapper;
+
     @Override
-    public OrderResponseDto addOrder(OrderRequestDto orderRequestDto) {
-        return createOrderMock(
-                orderRequestDto.getConsumerName(),
-                orderRequestDto.getAddress(),
-                orderRequestDto.getEmail(),
-                orderRequestDto.getOrderStatus(),
-                orderRequestDto.getOrderItems(),
-                orderRequestDto.getTotalPrice()
-        );
+    @Transactional(readOnly = true)
+    public Order getOrderById(UUID orderId) {
+        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId.toString()));
+
+        return orderMapper.toOrder(orderEntity);
     }
 
-    private OrderResponseDto createOrderMock(String consumerName, String address, String email, String orderStatus, List<OrderItemDto> orderItems, double totalPrice) {
-        return OrderResponseDto.builder()
-                .id(UUID.randomUUID())
-                .consumerName(consumerName)
-                .address(address)
-                .email(email)
-                .orderStatus(orderStatus)
-                .orderItems(orderItems)
-                .totalPrice(totalPrice)
-                .build();
+    @Override
+    @Transactional(readOnly = true)
+    public List<Order> getAllOrders() {
+        return orderMapper.toOrders(orderRepository.findAll());
+    }
+
+    @Override
+    public Order createOrder(OrderRequestDto orderRequestDto) {
+
+
+        return null;
+    }
+
+    @Override
+    public Order updateOrder(OrderRequestDto orderRequestDto, UUID orderId) {
+        return null;
+    }
+
+    @Override
+    public void deleteOrder(UUID orderId) {
+
     }
 }
