@@ -1,5 +1,6 @@
 package com.tb.javaecommerce.dto.order;
 
+import com.tb.javaecommerce.common.OrderStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -12,7 +13,7 @@ import java.util.List;
 @Builder(toBuilder = true)
 public class OrderRequestDto {
     @NotNull(message = "Order items cannot be null")
-    List<OrderItemDto> orderItems;
+    List<OrderItemRequestDto> orderItems;
 
     @NotNull(message = "Address cannot be null")
     @Size(max = 255, message = "Address cannot exceed 255 characters")
@@ -24,10 +25,4 @@ public class OrderRequestDto {
     @NotNull(message = "Name cannot be null")
     @Size(max = 100, message = "Name cannot exceed 100 characters")
     String consumerName;
-
-    @NotNull(message = "Total price cannot be null")
-    Double totalPrice;
-
-    @NotNull(message = "Status cannot be null")
-    String orderStatus;
 }

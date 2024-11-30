@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "order")
+@Table(name = "\"order\"")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -43,6 +43,6 @@ public class OrderEntity {
     @Enumerated(EnumType.ORDINAL)
     OrderStatus order_status;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     List<OrderItemEntity> order_items;
 }

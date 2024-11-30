@@ -3,6 +3,7 @@ package com.tb.javaecommerce.web;
 import com.tb.javaecommerce.domain.Product;
 import com.tb.javaecommerce.dto.product.ProductRequestDto;
 import com.tb.javaecommerce.dto.product.ProductResponseDto;
+import com.tb.javaecommerce.repository.projection.ProductDetailsProjection;
 import com.tb.javaecommerce.service.CategoryService;
 import com.tb.javaecommerce.service.ProductService;
 import com.tb.javaecommerce.service.mappers.ProductMapper;
@@ -44,6 +45,16 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<ProductResponseDto> updateProduct(@RequestBody @Valid ProductRequestDto productRequestDto, @PathVariable UUID id) {
         return ResponseEntity.ok(productMapper.toProductResponseDto(productService.updateProduct(productRequestDto, id)));
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<ProductDetailsProjection>> getProductsByPriceRange(@RequestParam Double minPrice, @RequestParam Double maxPrice) {
+        return ResponseEntity.ok(productService.getProductsByPriceRange(minPrice, maxPrice));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductResponseDto>> searchProducts(@RequestParam String title) {
+        return ResponseEntity.ok(productMapper.toProductResponseDtoList(productService.findByTitleContainingIgnoreCase(title)));
     }
 
     @DeleteMapping("/{id}")

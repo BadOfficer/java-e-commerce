@@ -2,8 +2,11 @@ package com.tb.javaecommerce.web;
 
 import com.tb.javaecommerce.featuretoggle.exception.FeatureNotEnabledException;
 import com.tb.javaecommerce.service.exception.CategoryNotFoundException;
+import com.tb.javaecommerce.service.exception.OrderNotFoundException;
 import com.tb.javaecommerce.service.exception.ProductNotFoundException;
+import com.tb.javaecommerce.service.exception.ProductStatusIsInCorrectException;
 import com.tb.javaecommerce.web.exception.FieldsAndReason;
+import jakarta.persistence.PersistenceException;
 import org.springframework.http.*;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -39,11 +42,36 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return problemDetail;
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ProblemDetail handleOrderNotFoundException(OrderNotFoundException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        problemDetail.setType(URI.create("order-not-found"));
+        problemDetail.setTitle("Order Not Found");
+        return problemDetail;
+    }
+
+    @ExceptionHandler(ProductStatusIsInCorrectException.class)
+    public ProblemDetail handleProductStatusException(ProductStatusIsInCorrectException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+        problemDetail.setType(URI.create("product-status-incorrect"));
+        problemDetail.setTitle("Product Status Incorrect");
+        return problemDetail;
+    }
+
     @ExceptionHandler(FeatureNotEnabledException.class)
     public ProblemDetail handleFeatureToggleNotEnabledException(FeatureNotEnabledException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
         problemDetail.setType(URI.create("feature-disabled"));
         problemDetail.setTitle("Feature Is Disabled");
+        return problemDetail;
+    }
+
+    @ExceptionHandler(PersistenceException.class)
+    public ProblemDetail handlePersistenceException(PersistenceException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+        problemDetail.setType(URI.create("persistence-error"));
+        problemDetail.setTitle("Persistence Error");
         return problemDetail;
     }
 

@@ -9,11 +9,11 @@ import java.util.UUID;
 @Value
 @Builder
 public class OrderResponseDto {
-    UUID id;
+    String id;
     String consumerName;
     String address;
     String email;
     Double totalPrice;
     String orderStatus;
-    List<OrderItemDto> orderItems;
+    List<OrderItemResponseDto> orderItems;
 }

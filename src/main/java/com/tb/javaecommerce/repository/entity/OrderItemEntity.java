@@ -19,11 +19,11 @@ public class OrderItemEntity {
     Long id;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "order_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "order_id", nullable = false)
     OrderEntity order;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "product_id", nullable = false)
     ProductEntity product;
 
     @Column(name = "price")

@@ -4,13 +4,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Value;
 
 @Value
-public class OrderItemDto {
+public class OrderItemRequestDto {
     @NotNull(message = "Product name cannot be null")
-    Long productId;
+    String productId;
 
     @NotNull(message = "Product quantity cannot be null")
     Integer quantity;
-
-    @NotNull(message = "Product price cannot be null")
-    Double price;
 }

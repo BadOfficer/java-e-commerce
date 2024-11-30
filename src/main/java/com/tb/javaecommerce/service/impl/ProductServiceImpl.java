@@ -7,6 +7,7 @@ import com.tb.javaecommerce.dto.product.ProductRequestDto;
 import com.tb.javaecommerce.repository.ProductRepository;
 import com.tb.javaecommerce.repository.entity.CategoryEntity;
 import com.tb.javaecommerce.repository.entity.ProductEntity;
+import com.tb.javaecommerce.repository.projection.ProductDetailsProjection;
 import com.tb.javaecommerce.service.CategoryService;
 import com.tb.javaecommerce.service.ProductService;
 import com.tb.javaecommerce.service.exception.ProductNotFoundException;
@@ -81,6 +82,18 @@ public class ProductServiceImpl implements ProductService {
         } catch (Exception e) {
             throw new PersistenceException(e);
         }
+    }
+
+    @Override
+    @Transactional
+    public List<ProductDetailsProjection> getProductsByPriceRange(double minPrice, double maxPrice) {
+        return productRepository.findProductByPriceRange(minPrice, maxPrice);
+    }
+
+    @Override
+    @Transactional
+    public List<Product> findByTitleContainingIgnoreCase(String title) {
+        return productMapper.toProductList(productRepository.findByTitleContainingIgnoreCase(title));
     }
 
     @Override
