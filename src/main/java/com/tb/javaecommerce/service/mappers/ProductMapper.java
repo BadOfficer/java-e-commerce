@@ -2,11 +2,8 @@ package com.tb.javaecommerce.service.mappers;
 
 import com.tb.javaecommerce.common.ProductStatus;
 import com.tb.javaecommerce.domain.Product;
-import com.tb.javaecommerce.dto.product.ProductRequestDto;
 import com.tb.javaecommerce.dto.product.ProductResponseDto;
-import com.tb.javaecommerce.repository.entity.CategoryEntity;
 import com.tb.javaecommerce.repository.entity.ProductEntity;
-import com.tb.javaecommerce.service.CategoryService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -25,6 +22,7 @@ public interface ProductMapper {
         return status.getDisplayName();
     }
 
+    @Mapping(target = "id", source = "product_reference")
     Product toProduct(ProductEntity productEntity);
     List<Product> toProductList(Iterable<ProductEntity> productEntities);
 

@@ -43,6 +43,6 @@ public class OrderEntity {
     @Enumerated(EnumType.ORDINAL)
     OrderStatus order_status;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, orphanRemoval = true)
     List<OrderItemEntity> order_items;
 }

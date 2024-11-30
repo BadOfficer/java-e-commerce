@@ -102,8 +102,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-
-
   /api/v1/products/{id}:
     get:
       summary: Get product by ID
@@ -114,7 +112,7 @@ paths:
           name: id
           required: true
           schema:
-            type: string
+            type: UUID
           description: ID of the product
       responses:
         200:
@@ -130,9 +128,70 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
+  /api/v1/products/filter:
+    get:
+      summary: filter Products by price
+      tags:
+        - Products
+      parameters:
+        - in: query
+          name: minPrice
+          required: true
+          schema:
+            type: double
+          description: Minimum price
+        - in: query
+          name: maxPrice
+          required: true
+          schema:
+            type: double
+          description: Maximum price
+      responses:
+        200:
+          description: List of filtered products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDetailsProjection'
+        400:
+          description: Invalid params
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/products/search:
+    get:
+      summary: search Products by title
+      tags:
+        - Products
+      parameters:
+        - in: query
+          name: title
+          required: true
+          schema:
+            type: string
+          description: title of product
+      responses:
+        200:
+          description: List of searched products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductResponseDto'
+        400:
+          description: Invalid params
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 components:
   schemas:
-
     ErrorResponse:
       type: object
       properties:
@@ -165,6 +224,28 @@ components:
       items:
         $ref: '#/components/schemas/ProductResponseDto'
 
+    ProductDetailsProjection:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: double
+
+    CategoryDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the category (must include specific keywords and cannot exceed 50 characters)
+          maxLength: 100
+        description:
+          type: string
+          description: Detailed description of the category (cannot exceed 255 characters)
+          maxLength: 255
+
     ProductResponseDto:
       type: object
       properties:
@@ -183,6 +264,9 @@ components:
         status:
           type: string
           description: Status of the product
+        category:
+          $ref: '#/components/schemas/CategoryDto'
+
 
     ParamsViolationDetails:
       type: object
@@ -201,6 +285,7 @@ components:
         - description
         - price
         - categoryId
+        - status
       properties:
         title:
           type: string

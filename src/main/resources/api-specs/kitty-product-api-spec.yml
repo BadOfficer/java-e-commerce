@@ -1,0 +1,39 @@
+openapi: 3.1.0
+info:
+  title: Kitty Product API
+  description: Kitty Product API
+  version: 1.0.0
+
+paths:
+  /api/v1/kitty-products:
+    get:
+      summary: Get all ketti products
+      tags:
+        - KittyProduct
+      responses:
+        200:
+          description: List of all categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/KittyProduct"
+
+components:
+  schemas:
+    KittyProduct:
+      type: object
+      properties:
+        id:
+          type: long
+          description: id of kitty product
+        name:
+          type: string
+          description: name of kitty product
+        description:
+          type: string
+          description: description of kitty product
+        price:
+          type: double
+          description: price of kitty product

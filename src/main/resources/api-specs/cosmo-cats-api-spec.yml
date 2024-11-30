@@ -1,0 +1,39 @@
+openapi: 3.1.0
+info:
+  title: Cosmo Cats API
+  description: Cosmo Cats API
+  version: 1.0.0
+
+paths:
+  /api/v1/cosmo-cats:
+    get:
+      summary: Get all cosmo cats
+      tags:
+        - CosmoCats
+      responses:
+        200:
+          description: List of all cosmo cats
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CosmoCat"
+
+components:
+  schemas:
+    CosmoCat:
+      type: object
+      properties:
+        id:
+          type: long
+          description: id of cosmo cat
+        name:
+          type: string
+          description: name of cosmo cat
+        countOfPaws:
+          type: integer
+          description: count paws of cosmo cat
+        price:
+          type: double
+          description: price of cosmo cat

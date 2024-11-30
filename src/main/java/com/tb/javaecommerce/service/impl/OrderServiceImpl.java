@@ -86,6 +86,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void deleteOrder(UUID orderId) {
+        getOrderById(orderId);
+
         try {
             orderRepository.deleteByNaturalId(orderId);
         } catch (Exception e) {
@@ -112,6 +114,10 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new OrderNotFoundException(orderId.toString()));
         order.setOrder_status(orderStatus);
 
-        return orderMapper.toOrder(orderRepository.save(order));
+        try {
+            return orderMapper.toOrder(orderRepository.save(order));
+        } catch (Exception e) {
+            throw new PersistenceException(e);
+        }
     }
 }

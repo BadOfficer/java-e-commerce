@@ -21,6 +21,7 @@ ext {
             "**/*JavaECommerceApplication.*",
             "**/config/*",
             "**/common/*",
+            "**/service/exception/*",
     ]
 }
 
@@ -56,6 +57,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.liquibase:liquibase-core:4.30.0'
     implementation 'org.postgresql:postgresql:42.7.4'
+    testImplementation "org.wiremock:wiremock-jetty12:3.9.2"
+    testImplementation 'org.testcontainers:testcontainers:1.19.0'
+    testImplementation 'org.testcontainers:postgresql:1.19.0'
 }
 
 tasks.named('test') {

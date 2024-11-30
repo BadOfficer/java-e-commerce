@@ -58,6 +58,7 @@ databaseChangeLog:
             referencedTableName: category
             referencedColumnNames: id
             constraintName: fk_product_category
+            onDelete: CASCADE
         - createIndex:
             tableName: product
             columns:

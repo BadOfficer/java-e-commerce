@@ -9,7 +9,7 @@ import java.util.UUID;
 @Builder
 @Data
 public class Product {
-    private long id;
+    private String id;
     private String title;
     private String description;
     private double price;

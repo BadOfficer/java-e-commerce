@@ -50,9 +50,13 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public Category updateCategory(CategoryDto categoryDto, Long categoryId) {
+        CategoryEntity category = categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException(categoryId));
+
+        category.setTitle(categoryDto.getTitle());
+        category.setDescription(categoryDto.getDescription());
+
         try {
-            getCategoryById(categoryId);
-            return categoryMapper.toCategory(categoryRepository.save(categoryMapper.toCategoryEntity(categoryDto)));
+            return categoryMapper.toCategory(categoryRepository.save(category));
         } catch (Exception e) {
             throw new PersistenceException(e);
         }
@@ -61,6 +65,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void deleteCategory(Long categoryId) {
+        getCategoryById(categoryId);
         try {
             categoryRepository.deleteById(categoryId);
         } catch (Exception e) {

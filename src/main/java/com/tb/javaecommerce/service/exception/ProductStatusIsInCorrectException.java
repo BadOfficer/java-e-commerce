@@ -1,8 +1,6 @@
 package com.tb.javaecommerce.service.exception;
 
-import jakarta.persistence.PersistenceException;
-
-public class ProductStatusIsInCorrectException extends PersistenceException {
+public class ProductStatusIsInCorrectException extends RuntimeException {
     private static final String PRODUCT_STATUS_IS_INCORRECT_MESSAGE = "Product status cannot be %s";
 
     public ProductStatusIsInCorrectException(String status) {

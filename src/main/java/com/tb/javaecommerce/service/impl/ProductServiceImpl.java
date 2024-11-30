@@ -48,17 +48,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product createProduct(ProductRequestDto productRequestDto) {
+        CategoryEntity category = categoryMapper.toCategoryEntity(categoryService.getCategoryById(productRequestDto.getCategoryId()));
+
+        Product newProduct = Product.builder()
+                .title(productRequestDto.getTitle())
+                .description(productRequestDto.getDescription())
+                .price(productRequestDto.getPrice())
+                .category(categoryMapper.toCategory(category))
+                .status(productRequestDto.getStatus())
+                .build();
         try {
-            CategoryEntity category = categoryMapper.toCategoryEntity(categoryService.getCategoryById(productRequestDto.getCategoryId()));
-
-            Product newProduct = Product.builder()
-                    .title(productRequestDto.getTitle())
-                    .description(productRequestDto.getDescription())
-                    .price(productRequestDto.getPrice())
-                    .category(categoryMapper.toCategory(category))
-                    .status(productRequestDto.getStatus())
-                    .build();
-
             return productMapper.toProduct(productRepository.save(productMapper.toProductEntity(newProduct)));
         } catch (Exception e) {
             throw new PersistenceException(e);
@@ -68,16 +67,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product updateProduct(ProductRequestDto productRequestDto, UUID id) {
+        ProductEntity product = productRepository.findByNaturalId(id).orElseThrow(() -> new ProductNotFoundException(id.toString()));
+        CategoryEntity category = categoryMapper.toCategoryEntity(categoryService.getCategoryById(productRequestDto.getCategoryId()));
+
+        product.setTitle(productRequestDto.getTitle());
+        product.setDescription(productRequestDto.getDescription());
+        product.setPrice(productRequestDto.getPrice());
+        product.setStatus(productRequestDto.getStatus());
+        product.setCategory(category);
+
         try {
-            ProductEntity product = productRepository.findByNaturalId(id).orElseThrow(() -> new ProductNotFoundException(id.toString()));
-            CategoryEntity category = categoryMapper.toCategoryEntity(categoryService.getCategoryById(productRequestDto.getCategoryId()));
-
-            product.setTitle(productRequestDto.getTitle());
-            product.setDescription(productRequestDto.getDescription());
-            product.setPrice(productRequestDto.getPrice());
-            product.setStatus(productRequestDto.getStatus());
-            product.setCategory(category);
-
             return productMapper.toProduct(productRepository.save(product));
         } catch (Exception e) {
             throw new PersistenceException(e);
@@ -85,13 +84,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ProductDetailsProjection> getProductsByPriceRange(double minPrice, double maxPrice) {
         return productRepository.findProductByPriceRange(minPrice, maxPrice);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Product> findByTitleContainingIgnoreCase(String title) {
         return productMapper.toProductList(productRepository.findByTitleContainingIgnoreCase(title));
     }
@@ -99,6 +98,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void deleteProduct(UUID id) {
+        getProductById(id);
+
         try {
             productRepository.deleteByNaturalId(id);
         } catch (Exception e) {
