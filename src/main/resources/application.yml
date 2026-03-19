@@ -25,6 +25,9 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
+app:
+  health:
+    db-timeout-seconds: ${HEALTH_DB_TIMEOUT_SECONDS:2}
 
 feature:
     toggles:
