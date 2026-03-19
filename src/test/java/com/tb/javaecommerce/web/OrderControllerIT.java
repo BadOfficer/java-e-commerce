@@ -1,6 +1,7 @@
 package com.tb.javaecommerce.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tb.javaecommerce.AbstractIt;
 import com.tb.javaecommerce.common.OrderStatus;
 import com.tb.javaecommerce.common.ProductStatus;
 import com.tb.javaecommerce.domain.Order;
@@ -36,7 +37,7 @@ import java.util.UUID;
 @AutoConfigureMockMvc
 @DisplayName("Order Controller IT")
 @SpringBootTest
-public class OrderControllerIT {
+public class OrderControllerIT extends AbstractIt {
     @Autowired
     private ObjectMapper objectMapper;
 

@@ -1,5 +1,6 @@
 package com.tb.javaecommerce.web;
 
+import com.tb.javaecommerce.AbstractIt;
 import com.tb.javaecommerce.featuretoggle.FeatureToggleExtension;
 import com.tb.javaecommerce.featuretoggle.FeatureToggles;
 import com.tb.javaecommerce.featuretoggle.annotation.DisabledFeatureToggle;
@@ -17,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ExtendWith(FeatureToggleExtension.class)
 @SpringBootTest
-public class KittyProductControllerTestIT {
+public class KittyProductControllerTestIT extends AbstractIt {
     @Autowired
     private MockMvc mockMvc;
 
