@@ -1,6 +1,8 @@
 spring:
   config:
     import: optional:file:.env[.properties]
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
   application:
     name: java-e-commerce
   jpa:
@@ -33,3 +35,6 @@ feature:
     toggles:
       cosmo-cats: true
       kitty-products: false
+
+server:
+  shutdown: graceful
