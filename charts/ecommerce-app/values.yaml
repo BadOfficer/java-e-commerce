@@ -1,0 +1,23 @@
+appName: ecommerce-app
+dbName: postgres
+pgSecretName: postgres-secret
+pgConfigName: postgres-config
+
+appImage:
+  name: ecommerce-app
+  tag: local
+
+dbImage:
+  name: postgres
+  tag: 16-alpine
+
+appReplicaCount: 2
+dbReplicaCount: 1
+
+appResources:
+  requests:
+    cpu: "50m"
+    memory: "16Mi"
+  limits:
+    cpu: "100m"
+    memory: "128Mi"
