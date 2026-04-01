@@ -1,28 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ecommerce-app
+  name: {{ .Values.appName }}
   labels:
-    app: ecommerce-app
+    app: {{ .Values.appName }}
 spec:
-  replicas: 2
+  replicas: {{ .Values.appReplicaCount }}
   selector:
     matchLabels:
-      app: ecommerce-app
+      app: {{ .Values.appName }}
   template:
     metadata:
       labels:
-        app: ecommerce-app
+        app: {{ .Values.appName }}
     spec:
       containers:
-        - name: ecommerce-app
-          image: ecommerce-app:local
+        - name: {{ .Values.appName }}
+          image: "{{ .Values.appImage.name }}:{{ .Values.appImage.tag }}"
           imagePullPolicy: IfNotPresent
+          resources:
+            {{ toYaml .Values.appResources | nindent 12 }}
           envFrom:
             - secretRef:
-                name: postgres-secret
+                name: {{ .Values.pgSecretName }}
             - configMapRef:
-                name: postgres-config
+                name: {{ .Values.pgConfigName }}
           livenessProbe:
             httpGet:
               port: 8080

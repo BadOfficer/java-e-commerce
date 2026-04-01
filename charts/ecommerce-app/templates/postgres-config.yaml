@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: postgres-config
+  name: {{ .Values.pgConfigName }}
 data:
-  DB_HOST: postgres
+  DB_HOST: {{ .Values.dbName }}
   DB_PORT: "5432"
   DB_NAME: test_db
   DB_USER: root
