@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appName }}
+  labels:
+    app: {{ .Values.appName }}
+spec:
+  replicas: {{ .Values.appReplicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      containers:
+        - name: {{ .Values.appName }}
+          image: "{{ .Values.appImage.name }}:{{ .Values.appImage.tag }}"
+          imagePullPolicy: IfNotPresent
+          resources:
+            {{ toYaml .Values.appResources | nindent 12 }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.pgSecretName }}
+            - configMapRef:
+                name: {{ .Values.pgConfigName }}
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /health
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              port: 8080
+              path: /health
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          ports:
+            - containerPort: 8080
